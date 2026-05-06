@@ -59,7 +59,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 10px; /* Reduced gap for mobile */
+}
+
+@media (min-width: 900px) {
+  .topbar__inner {
+    gap: 24px;
+  }
 }
 
 .topbar__logo {
@@ -83,12 +89,18 @@
 
 /* Search Bar */
 .topbar__search-container {
-  flex: 2; /* takes more space if available */
-  width: 100%;
+  flex: 1; 
+  min-width: 0; /* Allow shrinking */
   max-width: 500px;
   display: flex;
   justify-content: center;
   position: relative;
+}
+
+@media (min-width: 900px) {
+  .topbar__search-container {
+    flex: 2;
+  }
 }
 
 .topbar__search {
@@ -127,7 +139,7 @@
 
 /* Phone / Right Section */
 .topbar__right {
-  display: flex;
+  display: none;
   align-items: center;
   flex: 1;
   justify-content: flex-end;

@@ -1,10 +1,10 @@
-.home-page { overflow-x: hidden; padding-top: 72px; }
-@media (min-width: 900px) { .home-page { padding-top: 118px; } }
+.home-page { overflow-x: hidden; padding-top: 170px; }
+@media (min-width: 900px) { .home-page { padding-top: 154px; } }
 
 /* ── Compact Banner Carousel ───────────────────────────────── */
 .banner-carousel {
   background: var(--grey-100);
-  padding: 20px 20px 0;
+  padding: 30px 20px 0;
 }
 @media (min-width: 900px) { .banner-carousel { padding: 24px 40px 0; } }
 

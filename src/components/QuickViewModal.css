@@ -3,7 +3,7 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
-  z-index: 1000;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,6 +11,14 @@
   visibility: hidden;
   transition: all 0.3s ease;
   padding: 20px;
+}
+
+@media (max-width: 767px) {
+  .qv-overlay {
+    padding: 10px;
+    align-items: flex-start; /* Start from top on mobile to avoid clipping */
+    overflow-y: auto; /* Ensure overlay itself can scroll if needed */
+  }
 }
 
 .qv-overlay--visible {
@@ -22,12 +30,20 @@
   background: var(--white);
   width: 100%;
   max-width: 900px;
+  max-height: 90vh;
   border-radius: 12px;
-  overflow: hidden;
+  overflow-y: auto;
   position: relative;
   transform: translateY(20px);
   transition: transform 0.3s ease;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 767px) {
+  .qv-modal {
+    max-height: none; /* Allow natural height on mobile */
+    margin: 20px auto; /* Add margin for breathing room */
+  }
 }
 
 .qv-modal--visible {
@@ -98,6 +114,15 @@
   flex-direction: column;
 }
 
+@media (max-width: 767px) {
+  .qv-image-side {
+    padding: 20px;
+  }
+  .qv-info-side {
+    padding: 20px;
+  }
+}
+
 .qv-category {
   font-size: 0.75rem;
   font-weight: 700;
@@ -111,6 +136,13 @@
   font-size: 1.8rem;
   color: var(--off-black);
   margin-bottom: 16px;
+}
+
+@media (max-width: 767px) {
+  .qv-title {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+  }
 }
 
 .qv-desc {
