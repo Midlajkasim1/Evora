@@ -1,0 +1,12 @@
+/* App-level overrides and utility classes only.
+   All design tokens live in index.css */
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}

@@ -1,0 +1,261 @@
+.qv-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  padding: 20px;
+}
+
+.qv-overlay--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.qv-modal {
+  background: var(--white);
+  width: 100%;
+  max-width: 900px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.qv-modal--visible {
+  transform: translateY(0);
+}
+
+.qv-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--grey-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+  color: var(--off-black);
+}
+
+.qv-close:hover {
+  background: var(--grey-200);
+}
+
+.qv-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .qv-layout {
+    grid-template-columns: 1fr 1.1fr;
+  }
+}
+
+/* Left side */
+.qv-image-side {
+  background: var(--grey-50);
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qv-image-container {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.qv-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Right side */
+.qv-info-side {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.qv-category {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gold-dark);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.qv-title {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: var(--off-black);
+  margin-bottom: 16px;
+}
+
+.qv-desc {
+  font-size: 0.9rem;
+  color: var(--grey-600);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.qv-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.qv-features li {
+  font-size: 0.85rem;
+  color: var(--grey-600);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qv-features li::before {
+  content: "•";
+  color: var(--gold);
+  font-weight: bold;
+}
+
+.qv-action-row {
+  background: var(--grey-50);
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.qv-qty-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.qv-qty-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--off-black);
+}
+
+.qv-qty-selector {
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--grey-200);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.qv-qty-selector button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--grey-600);
+}
+
+.qv-qty-selector button:hover {
+  background: var(--grey-50);
+}
+
+.qv-qty-selector input {
+  width: 60px;
+  text-align: center;
+  border: none;
+  border-left: 1px solid var(--grey-200);
+  border-right: 1px solid var(--grey-200);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0;
+  height: 32px;
+}
+
+.qv-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.qv-btn-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--off-black);
+  color: var(--white);
+  padding: 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.qv-btn-full:hover {
+  background: #333;
+}
+
+.qv-btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.qv-btn-quote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--grey-700);
+  color: var(--white);
+  padding: 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.qv-btn-instant {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #20c960;
+  color: var(--white);
+  padding: 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.qv-btn-instant:hover {
+  background: #1ba951;
+}
