@@ -1,12 +1,12 @@
 .products-page { 
-  padding-top: 72px; 
+  padding-top: 158px; 
   padding-bottom: 80px; 
   min-height: 100dvh; 
   background: var(--white);
 }
 
 @media (min-width: 900px) { 
-  .products-page { padding-top: 118px; } 
+  .products-page { padding-top: 154px; } 
 }
 
 /* Breadcrumb Section */
@@ -199,12 +199,12 @@
 /* Products grid */
 .products-grid-area {
   display: grid; 
-  gap: 24px;
-  grid-template-columns: 1fr;
+  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 @media (min-width: 540px) { 
-  .products-grid-area { grid-template-columns: repeat(2, 1fr); } 
+  .products-grid-area { gap: 24px; } 
 }
 
 @media (min-width: 1200px) { 

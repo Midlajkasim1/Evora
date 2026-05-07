@@ -1,5 +1,5 @@
-.quote-page { padding-top: 72px; padding-bottom: 80px; }
-@media (min-width: 900px) { .quote-page { padding-top: 118px; } }
+.quote-page { padding-top: 158px; padding-bottom: 80px; }
+@media (min-width: 900px) { .quote-page { padding-top: 154px; } }
 .quote-hero { background: var(--off-black); padding: 56px 0 44px; }
 .quote-hero h1 { color: var(--white); margin-top: 12px; }
 .quote-hero .gold-divider { margin-top: 16px; }

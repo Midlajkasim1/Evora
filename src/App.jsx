@@ -78,7 +78,7 @@ export default function App() {
           <Route path="/quote" element={<QuotePage />} />
           <Route path="/gallery" element={<ProductsPage onAddToCart={handleAddToCart} />} />
           <Route path="*" element={
-            <main style={{ padding: 'calc(var(--nav-height) + 80px) 20px', textAlign: 'center' }}>
+            <main style={{ paddingTop: 'calc(158px + 80px)', paddingBottom: '80px', paddingLeft: '20px', paddingRight: '20px', textAlign: 'center' }}>
               <h2 style={{ fontFamily: 'var(--font-serif)' }}>404 — Page Not Found</h2>
               <a href="/" className="btn-primary" style={{ marginTop: 24, display: 'inline-flex' }}>Return Home</a>
             </main>

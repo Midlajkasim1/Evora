@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import ProductCard from '../components/ProductCard';
+import QuickViewModal from '../components/QuickViewModal';
 import data from '../data/products.json';
 import './ProductDetailPage.css';
 
@@ -30,6 +31,7 @@ export default function ProductDetailPage({ onAddToCart }) {
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
 
   // Reset active image when product changes
   useEffect(() => {
@@ -181,7 +183,7 @@ export default function ProductDetailPage({ onAddToCart }) {
             <h2>Related Products</h2>
             <div className="products-grid related-grid">
               {related.map(p => (
-                <ProductCard key={p.id} product={p} onAddToCart={onAddToCart} />
+                <ProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />
               ))}
             </div>
             <div className="carousel-arrows">
@@ -225,6 +227,13 @@ export default function ProductDetailPage({ onAddToCart }) {
           ))}
         </div>
       </section>
+
+      {quickViewProduct && (
+        <QuickViewModal 
+          product={quickViewProduct} 
+          onClose={() => setQuickViewProduct(null)} 
+        />
+      )}
     </main>
   );
 }

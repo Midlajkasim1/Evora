@@ -1,5 +1,5 @@
-.detail-page { padding-top: calc(72px + 32px); padding-bottom: 80px; }
-@media (min-width: 900px) { .detail-page { padding-top: calc(118px + 32px); } }
+.detail-page { padding-top: calc(158px + 32px); padding-bottom: 80px; }
+@media (min-width: 900px) { .detail-page { padding-top: calc(154px + 32px); } }
 .detail-breadcrumb { margin-bottom: 28px; }
 
 .detail-layout {
