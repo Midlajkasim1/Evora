@@ -2,7 +2,7 @@ export const NAV_ITEMS = [
   {
     label: 'Marketing Materials',
     id: 'marketing',
-    to: '/products?category=marketing',
+    to: '/products?category=marketing&nav=marketing',
     highlight: true,
     mega: {
       columns: [
@@ -47,7 +47,7 @@ export const NAV_ITEMS = [
   {
     label: 'Magazines & Books',
     id: 'magazines',
-    to: '/products?category=marketing',
+    to: '/products?category=marketing&nav=magazines',
     mega: {
       columns: [
         {
@@ -66,7 +66,7 @@ export const NAV_ITEMS = [
   {
     label: 'Stickers & Labels',
     id: 'stickers',
-    to: '/products?category=stationery',
+    to: '/products?category=stationery&nav=stickers',
     mega: {
       columns: [
         {
@@ -95,42 +95,42 @@ export const NAV_ITEMS = [
   {
     label: 'Corporate Gifts',
     id: 'gifts',
-    to: '/products?category=packaging',
+    to: '/products?category=corporate&nav=gifts',
     mega: {
       columns: [
         {
           heading: 'Office Essentials',
-          to: '/products?category=packaging',
+          to: '/products?category=corporate',
           links: ['Corporate Gift Sets', 'Mouse Pads', 'Pens', 'PU Notebooks', 'PU Organizer']
         },
         {
           heading: 'Drinkware',
-          to: '/products?category=packaging',
+          to: '/products?category=corporate',
           links: ['Bottles', 'Coasters', 'Coffee Stencils', 'Mugs', 'Tumblers']
         },
         {
           heading: 'Apparel',
-          to: '/products?category=packaging',
+          to: '/products?category=corporate',
           links: ['Caps', 'Jerseys', 'Safety Vests', 'T-Shirts']
         },
         {
           heading: 'Food & Events',
-          to: '/products?category=packaging',
+          to: '/products?category=corporate',
           links: ['Napkins', 'Paper Cups', 'Water Bottle Labels']
         },
         {
           heading: 'Accessories',
-          to: '/products?category=packaging',
+          to: '/products?category=corporate',
           links: ['ID Cards & Badge Reels', 'Keychains', 'Lanyards', 'Lapel Pins', 'Name Badges', 'Fridge Magnets', 'Wristbands']
         },
         {
           heading: 'Tech Gadgets',
-          to: '/products?category=packaging',
+          to: '/products?category=corporate',
           links: ['Bluetooth Speakers', 'Charging Cables', 'Power Banks', 'USB Drives']
         },
         {
           heading: 'Bags',
-          to: '/products?category=packaging',
+          to: '/products?category=corporate',
           links: ['Canvas Bags', 'Cotton String Bags', 'Drawstring Bags', 'Jute Bags', 'Kraft Bags', 'Paper Bags', 'Tote Bags']
         }
       ]
@@ -139,7 +139,7 @@ export const NAV_ITEMS = [
   {
     label: 'Flags',
     id: 'flags',
-    to: '/products?category=outdoor',
+    to: '/products?category=outdoor&nav=flags',
     mega: {
       columns: [
         {
@@ -178,7 +178,7 @@ export const NAV_ITEMS = [
   {
     label: 'Events & Exhibitions',
     id: 'events',
-    to: '/products?category=outdoor',
+    to: '/products?category=outdoor&nav=events',
     mega: {
       columns: [
         {
@@ -207,7 +207,7 @@ export const NAV_ITEMS = [
   {
     label: 'Premium Packaging',
     id: 'packaging',
-    to: '/products?category=packaging',
+    to: '/products?category=packaging&nav=packaging',
     mega: {
       columns: [
         {

@@ -1,22 +1,40 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './ProductCard.css';
 
 export default function ProductCard({ product }) {
   const [imgLoaded, setImgLoaded] = useState(false);
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete) {
+      setImgLoaded(true);
+    }
+  }, []);
 
   return (
     <article className="product-card">
       <div className="product-card__image-wrapper">
-        <a href={`/products/${product.slug}`} className="product-card__link">
+        <a 
+          href={`/products/${product.slug}`} 
+          className="product-card__link"
+          onClick={(e) => {
+            if (window.innerWidth <= 767) {
+              e.preventDefault();
+              window.dispatchEvent(new CustomEvent('evora:quickview', { detail: product }));
+            }
+          }}
+        >
           <div className="product-card__image-container">
             <div className="product-card__image-white-bg">
               {!imgLoaded && <div className="skeleton product-card__skeleton" />}
               <img
+                ref={imgRef}
                 src={product.image}
                 alt={product.name}
                 className={`product-card__image${imgLoaded ? ' product-card__image--loaded' : ''}`}
                 loading="lazy"
                 onLoad={() => setImgLoaded(true)}
+                onError={() => setImgLoaded(true)}
               />
             </div>
           </div>

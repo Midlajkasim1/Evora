@@ -16,9 +16,12 @@ export default function Navbar() {
   const megaTimeout = useRef(null);
   const searchRef = useRef(null);
   const [pathname, setPathname] = useState('');
+  const [activeNavId, setActiveNavId] = useState(null);
 
   useEffect(() => {
     setPathname(window.location.pathname);
+    const params = new URLSearchParams(window.location.search);
+    setActiveNavId(params.get('nav'));
     setMenuOpen(false);
     setActiveMenu(null);
     setShowSuggestions(false);
@@ -66,7 +69,15 @@ export default function Navbar() {
   
   const searchResults = filteredResults.slice(0, 6);
 
-  const fallbackActiveIndex = NAV_ITEMS.findIndex(i => pathname === i.to);
+  const fallbackActiveIndex = NAV_ITEMS.findIndex(i => {
+    if (activeNavId && i.id === activeNavId) return true;
+    if (pathname !== '/' && pathname.startsWith('/products')) {
+       // if we are on products page but don't have nav param, we might fallback to something else,
+       // but for now, matching the URL path is enough if nav param is missing
+       return pathname === i.to.split('?')[0] && !activeNavId;
+    }
+    return pathname === i.to;
+  });
 
   return (
     <>

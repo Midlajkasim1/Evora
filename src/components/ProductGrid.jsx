@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import ProductCardComponent from './ProductCardComponent';
 import data from '../data/products.json';
 
@@ -13,16 +13,28 @@ const SORT_OPTIONS = [
 export default function ProductGrid({ initialCategory, initialSearch }) {
   const [sort, setSort] = useState('default');
   const [viewMode, setViewMode] = useState('grid');
+  
+  // Initialize from props (SSR), but update from URL on client mount
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
+  const [activeSearch, setActiveSearch] = useState(initialSearch);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      setActiveCategory(params.get('category') || 'all');
+      setActiveSearch(params.get('search') || '');
+    }
+  }, []);
 
   const filtered = useMemo(() => {
     let arr = data.products;
 
-    if (initialCategory !== 'all') {
-      arr = arr.filter(p => p.category === initialCategory);
+    if (activeCategory !== 'all') {
+      arr = arr.filter(p => p.category === activeCategory);
     }
 
-    if (initialSearch) {
-      const q = initialSearch.toLowerCase();
+    if (activeSearch) {
+      const q = activeSearch.toLowerCase();
       arr = arr.filter(p => 
         p.name.toLowerCase().includes(q) || 
         p.description.toLowerCase().includes(q) || 
@@ -32,7 +44,7 @@ export default function ProductGrid({ initialCategory, initialSearch }) {
 
     // Demo products logic
     if (arr.length === 0) {
-      const term = initialSearch || (initialCategory !== 'all' ? initialCategory : 'Product');
+      const term = activeSearch || (activeCategory !== 'all' ? activeCategory : 'Product');
       const demoTerm = term.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
       
       arr = [
@@ -41,7 +53,7 @@ export default function ProductGrid({ initialCategory, initialSearch }) {
           slug: `demo-1-${term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
           name: `Premium ${demoTerm}`,
           tagline: `High quality ${demoTerm.toLowerCase()} for your business`,
-          category: initialCategory !== 'all' ? initialCategory : 'marketing',
+          category: activeCategory !== 'all' ? activeCategory : 'marketing',
           price: 99,
           priceUnit: "per 100",
           image: "/images/custom-products.png",
@@ -64,7 +76,7 @@ export default function ProductGrid({ initialCategory, initialSearch }) {
       arr = [...arr].sort((a, b) => b.reviews - a.reviews);
     }
     return arr;
-  }, [initialCategory, initialSearch, sort]);
+  }, [activeCategory, activeSearch, sort]);
 
   return (
     <>
