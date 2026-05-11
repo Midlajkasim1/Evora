@@ -2,23 +2,26 @@ import { useState, useEffect } from 'react';
 import { addToCart } from '../store/cart';
 import './QuickViewModal.css';
 
-export default function QuickViewModal({ product, onClose }) {
+export default function QuickView() {
+  const [product, setProduct] = useState(null);
   const [qty, setQty] = useState(1);
-  const [isVisible, setIsVisible] = useState(false);
   const [added, setAdded] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 10);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      clearTimeout(timer);
-      document.body.style.overflow = 'unset';
+    const handleOpen = (e) => {
+      setProduct(e.detail);
+      setQty(1);
+      setAdded(false);
+      document.body.style.overflow = 'hidden';
     };
+
+    window.addEventListener('evora:quickview', handleOpen);
+    return () => window.removeEventListener('evora:quickview', handleOpen);
   }, []);
 
   const handleClose = () => {
-    setIsVisible(false);
-    setTimeout(onClose, 300);
+    setProduct(null);
+    document.body.style.overflow = 'unset';
   };
 
   const handleAddToCart = () => {
@@ -30,8 +33,8 @@ export default function QuickViewModal({ product, onClose }) {
   if (!product) return null;
 
   return (
-    <div className={`qv-overlay${isVisible ? ' qv-overlay--visible' : ''}`} onClick={handleClose}>
-      <div className={`qv-modal${isVisible ? ' qv-modal--visible' : ''}`} onClick={e => e.stopPropagation()}>
+    <div className="qv-overlay qv-overlay--visible" onClick={handleClose}>
+      <div className="qv-modal qv-modal--visible" onClick={e => e.stopPropagation()}>
         <button className="qv-close" onClick={handleClose} aria-label="Close">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
@@ -44,9 +47,8 @@ export default function QuickViewModal({ product, onClose }) {
           </div>
 
           <div className="qv-info-side">
-            <span className="qv-category">{product.category.toUpperCase()}</span>
+            <span className="qv-category">{product.category?.toUpperCase()}</span>
             <h2 className="qv-title">{product.name}</h2>
-            
             <p className="qv-desc">{product.description}</p>
 
             <ul className="qv-features">
@@ -81,12 +83,12 @@ export default function QuickViewModal({ product, onClose }) {
             </div>
 
             <div className="qv-buttons">
-              <a href={`/products/${product.slug}`} className="qv-btn-full" onClick={onClose}>
+              <a href={`/products/${product.slug}`} className="qv-btn-full" onClick={handleClose}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 View Full Details
               </a>
               <div className="qv-btn-row">
-                <a href="/quote" className="qv-btn-quote" onClick={onClose}>
+                <a href="/quote" className="qv-btn-quote" onClick={handleClose}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                   Request Quote
                 </a>

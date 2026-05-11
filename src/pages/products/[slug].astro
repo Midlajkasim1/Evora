@@ -1,0 +1,81 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import data from '../../data/products.json';
+import ProductDetail from '../../components/ProductDetail';
+import '../../pages/ProductDetailPage.css';
+
+export async function getStaticPaths() {
+  return data.products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+
+const related = data.products
+  .filter(p => p.category === product.category && p.id !== product.id)
+  .slice(0, 4);
+
+const FAQS = [
+  {
+    q: "What is the minimum order quantity?",
+    a: "The minimum order quantity varies by product, but is typically 50-100 units. You can find the exact minimum order quantity for this product above the Add to Cart button."
+  },
+  {
+    q: "Can I get a custom shape or size?",
+    a: "Absolutely! We specialize in custom die-cutting and bespoke shapes. Contact our team via the 'Request Quote' button to discuss your exact requirements."
+  },
+  {
+    q: "What is the standard turnaround time?",
+    a: "Our standard turnaround time is 3-5 business days after artwork approval. We also offer same-day and next-day rush printing options for urgent corporate needs."
+  },
+  {
+    q: "Do you offer design assistance?",
+    a: "Yes, our expert design team can help bring your vision to life. A free design consultation is included with premium orders."
+  }
+];
+
+const title = `${product.name} — Evora Print Studio`;
+const description = product.description;
+---
+
+<Layout title={title} description={description}>
+  <main class="detail-page">
+    <div class="container detail-page__inner">
+      {/* Breadcrumb */}
+      <nav class="breadcrumb detail-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a> <span>/</span>
+        <a href="/products">Products</a> <span>/</span>
+        <span>{product.name}</span>
+      </nav>
+
+      <ProductDetail product={product} related={related} client:load />
+    </div>
+
+    {/* SEO Content Section */}
+    <section class="seo-section container section-pad">
+      <h2>{product.name} Printing in Dubai UAE</h2>
+      <p>A business card is often the very first physical representation of your brand that a potential client or partner holds in their hand. When that card breaks away from the standard rectangle and arrives in a shape that mirrors your logo, your product, or your creative identity, it transforms from a disposable slip of paper into a conversation piece that people keep.</p>
+      <p>At Evora, we produce custom shaped business cards for professionals and businesses across Dubai, Abu Dhabi, Sharjah, Al Ain, and all UAE emirates. Our die-cutting equipment handles everything from simple rounded corners on standard sized cards to fully bespoke outlines that trace the contour of a logo, a building, a leaf, or any other shape you can imagine.</p>
+    </section>
+
+    {/* FAQ Section */}
+    <section class="faq-section container section-pad">
+      <h2 class="faq-heading">Frequently Asked Questions</h2>
+      <div class="faq-list">
+        {FAQS.map((faq) => (
+          <details class="faq-item">
+            <summary class="faq-summary">
+              {faq.q}
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-content">
+              <p>{faq.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+</Layout>

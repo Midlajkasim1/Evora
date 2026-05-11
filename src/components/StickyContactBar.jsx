@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import './StickyContactBar.css';
 
 export default function StickyContactBar() {
@@ -13,11 +12,11 @@ export default function StickyContactBar() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           hello@evora.ae
         </a>
-        <Link to="/quote" className="sticky-bar__btn sticky-bar__btn--enquiry">Quick Enquiry</Link>
-        <Link to="/quote" className="sticky-bar__btn sticky-bar__btn--quote">
+        <a href="/quote" className="sticky-bar__btn sticky-bar__btn--enquiry">Quick Enquiry</a>
+        <a href="/quote" className="sticky-bar__btn sticky-bar__btn--quote">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
           Get Instant Quote
-        </Link>
+        </a>
         <div className="sticky-bar__social">
           <span>Follow Us</span>
           {[

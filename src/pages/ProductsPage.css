@@ -173,20 +173,26 @@
 }
 
 .view-btn { 
-  padding: 8px; 
-  color: var(--grey-300); 
-  transition: color var(--transition);
+  padding: 10px; 
+  color: var(--grey-400); 
+  transition: all var(--transition);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--grey-100);
+  border: 1px solid var(--grey-200);
   background: var(--white);
+  cursor: pointer;
+}
+
+.view-btn svg {
+  width: 20px;
+  height: 20px;
 }
 
 .view-btn--active { 
-  color: var(--off-black);
-  border-color: var(--grey-200);
-  background: var(--grey-50);
+  color: var(--white);
+  border-color: var(--off-black);
+  background: var(--off-black);
 }
 
 .toolbar-divider {

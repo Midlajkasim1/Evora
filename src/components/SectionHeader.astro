@@ -1,0 +1,18 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  viewAllTo?: string;
+}
+
+const { label, title, viewAllTo } = Astro.props;
+---
+
+<div class="sec-header">
+  <div>
+    <span class="section-label">{label}</span>
+    <h2 class="sec-title">{title}</h2>
+    <div class="gold-divider"></div>
+  </div>
+  {viewAllTo && <a href={viewAllTo} class="view-all-link">View All →</a>}
+</div>

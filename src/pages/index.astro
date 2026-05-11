@@ -1,0 +1,238 @@
+---
+import Layout from '../layouts/Layout.astro';
+import data from '../data/products.json';
+import HeroCarousel from '../components/HeroCarousel';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProductRow from '../components/ProductRow';
+import WhyCard from '../components/WhyCard.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import '../pages/HomePage.css';
+
+const BEST_SELLERS = data.products.slice(0, 5);
+const EVENTS_PRODUCTS = data.products.filter(p => p.category === 'outdoor');
+const CORPORATE_PRODUCTS = data.products.filter(p => p.category === 'corporate').slice(0, 5);
+const WHATS_NEW = data.products.slice(-4).reverse();
+
+const COMPANIES = ['Emaar','ADNOC','Dubai Holding','Majid Al Futtaim','Aldar','Etisalat','du','Noon','Carrefour','DEWA','Damac','Meraas','Rotana','Jumeirah','RAK Ceramics','Lulu'];
+
+const WHY = [
+  { icon: '⭐', title: 'Premium Quality', desc: 'Every job passes our 22-point quality check before dispatch.' },
+  { icon: '⚡', title: 'Super Fast', desc: 'Express 48-hour turnaround on most products, guaranteed.' },
+  { icon: '💰', title: 'Value for Money', desc: 'Competitive pricing with no compromise on quality.' },
+  { icon: '🎨', title: 'Custom Designs', desc: 'Free design support from our expert in-house team.' },
+  { icon: '🚚', title: 'Free Delivery', desc: 'Free delivery across UAE on orders above AED 200.' },
+  { icon: '🏆', title: 'Award-Winning', desc: 'Recognised as the UAE\'s top print studio since 2018.' },
+];
+
+const TESTIMONIALS = data.testimonials;
+
+const title = "Evora — Your Print, Simplified";
+const description = "Luxury bespoke print solutions for visionary brands in UAE. Business cards, brochures, packaging, events and exhibitions. Fast delivery across UAE.";
+---
+
+<Layout title={title} description={description}>
+  <main class="home-page">
+    {/* Hero Carousel */}
+    <HeroCarousel client:load />
+
+    {/* Quick Stats Strip */}
+    <div class="quick-stats">
+      {[
+        { icon: '⭐', val: 'Capital for Quality' },
+        { icon: '💰', val: 'Value for Money' },
+        { icon: '⚡', val: 'Speed & Reliability' },
+        { icon: '🎯', val: 'Professional Adviser' },
+        { icon: '📦', val: '350+ Products' },
+      ].map(s => (
+        <div class="qs-item">
+          <span class="qs-icon">{s.icon}</span>
+          <span class="qs-val">{s.val}</span>
+        </div>
+      ))}
+    </div>
+
+    {/* Best Sellers */}
+    <section class="home-section section-pad" aria-labelledby="bestsellers-h">
+      <div class="container">
+        <SectionHeader label="Top Picks" title="Best Sellers" viewAllTo="/products" />
+        <ProductRow products={BEST_SELLERS} client:load />
+      </div>
+    </section>
+
+    {/* Events & Exhibitions */}
+    <section class="home-section section-pad bg-light" aria-labelledby="events-h">
+      <div class="container">
+        <SectionHeader label="Display Solutions" title="Events & Exhibitions" viewAllTo="/products?category=outdoor" />
+        <ProductRow products={EVENTS_PRODUCTS} client:load />
+      </div>
+    </section>
+
+    {/* Premium Packaging */}
+    <section class="home-section section-pad" aria-labelledby="packaging-h">
+      <div class="container">
+        <SectionHeader label="Unbox the Experience" title="Premium Packaging" viewAllTo="/products?category=packaging" />
+        <div class="packaging-feature">
+          <div class="packaging-feature__img">
+            <img src="/images/packaging.png" alt="Premium packaging" loading="lazy" />
+          </div>
+          <div class="packaging-feature__info">
+            <span class="section-label">Why Our Packaging?</span>
+            <h3>Elevate Every Unboxing Moment</h3>
+            <div class="gold-divider" />
+            <p>From rigid gift boxes with magnetic closures to fully custom retail packaging — every piece is crafted to make your brand unforgettable.</p>
+            <ul class="feature-list">
+              {['Custom rigid boxes with gold foil', 'Magnetic closure gift sets', 'Full interior & exterior printing', 'Eco-friendly options available', 'MOQ from just 50 units'].map(f => (
+                <li><span class="feature-check">✓</span>{f}</li>
+              ))}
+            </ul>
+            <a href="/products?category=packaging" class="btn-primary" style="margin-top: 24px;">Shop Packaging →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Corporate Gifts */}
+    <section class="home-section section-pad bg-light" aria-labelledby="corp-h">
+      <div class="container">
+        <SectionHeader label="Brand Your People" title="Corporate Gifts & Promotional Items" viewAllTo="/products?category=corporate" />
+        <ProductRow products={CORPORATE_PRODUCTS} client:load />
+      </div>
+    </section>
+
+    {/* National Day Products */}
+    <section class="national-day-section section-pad" aria-labelledby="nd-h">
+      <div class="container">
+        <div class="nd-inner">
+          <div class="nd-text">
+            <span class="nd-badge">🇦🇪 Special Edition</span>
+            <h2 id="nd-h">National Day Products</h2>
+            <div class="gold-divider" />
+            <p>Celebrate the UAE's National Day with our exclusive range of patriotic branded merchandise — from custom pins and lanyards to fully branded gift sets in the colours of the nation.</p>
+            <div class="nd-ctas">
+              <a href="/products" class="btn-primary">Shop National Day →</a>
+              <a href="/quote" class="nd-outline">Get Custom Quote</a>
+            </div>
+          </div>
+          <div class="nd-image">
+            <img src="/images/national-day.png" alt="UAE National Day products" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Custom Products */}
+    <section class="custom-cta-section section-pad">
+      <div class="container custom-cta-inner">
+        <div class="custom-cta-text">
+          <span class="section-label" style="color: var(--gold-light);">Your Vision, Our Craft</span>
+          <h2>Create Custom Products</h2>
+          <div class="gold-divider" />
+          <p>Have a unique idea? Our design team will bring it to life — from concept to delivery. We work with brands of all sizes to create truly bespoke print and merchandise.</p>
+          <a href="/quote" class="btn-primary" style="margin-top: 20px;">Start Your Custom Order →</a>
+        </div>
+        <div class="custom-cta-img">
+          <img src="/images/custom-products.png" alt="Custom product creation" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    {/* Super Fast */}
+    <section class="superfast-section section-pad-sm">
+      <div class="container sf-inner">
+        <div class="sf-badge">⚡</div>
+        <h2>Super Fast Turnaround</h2>
+        <p>We know deadlines don't wait. That's why we offer 48-hour express delivery on most products across the UAE — without ever compromising on quality.</p>
+        <div class="sf-stats">
+          {[{ n: '48hr', l: 'Express Turnaround' }, { n: '350+', l: 'Products' }, { n: '12K+', l: 'Happy Clients' }, { n: '99%', l: 'Quality Rate' }].map(s => (
+            <div class="sf-stat">
+              <strong>{s.n}</strong>
+              <span>{s.l}</span>
+            </div>
+          ))}
+        </div>
+        <a href="/products" class="btn-primary" style="margin-top: 32px;">Browse All Products</a>
+      </div>
+    </section>
+
+    {/* What's New */}
+    <section class="home-section section-pad">
+      <div class="container">
+        <SectionHeader label="Fresh Arrivals" title="What's New" viewAllTo="/products" />
+        <ProductRow products={WHATS_NEW} client:load />
+      </div>
+    </section>
+
+    {/* Recent Projects */}
+    <section class="home-portfolio container section-pad">
+      <div class="section-header-center">
+        <span class="section-label">OUR WORK</span>
+        <h2>Our Recent Projects</h2>
+        <div class="gold-divider center"></div>
+      </div>
+      <div class="portfolio-grid">
+        {[
+          { img: '/images/business-cards.png', title: 'Luxury Hotel Stationery', cat: 'Hospitality' },
+          { img: '/images/corporate-gifts.png', title: 'Executive Gift Sets', cat: 'Corporate' },
+          { img: '/images/letterhead.png', title: 'Premium Brand Identity', cat: 'Branding' },
+          { img: '/images/national-day.png', title: 'National Day Merchandise', cat: 'Events' },
+          { img: '/images/hero-slide1.png', title: 'Exhibition Display Stand', cat: 'Outdoor' },
+          { img: '/images/custom-products.png', title: 'Bespoke Product Packaging', cat: 'Packaging' },
+        ].map((item, i) => (
+          <div class="portfolio-item">
+            <img src={item.img} alt={item.title} loading="lazy" />
+            <div class="portfolio-overlay">
+              <span class="portfolio-cat">{item.cat}</span>
+              <h4 class="portfolio-title">{item.title}</h4>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* Trusted Section */}
+    <section class="trusted-section section-pad-sm" aria-label="Trusted by leading companies">
+      <div class="container">
+        <p class="trusted-label">Trusted by Leading Companies Across the UAE</p>
+      </div>
+      <div class="trusted-track-wrap">
+        <div class="trusted-track">
+          {[...COMPANIES, ...COMPANIES].map((c, i) => (
+            <span class="trusted-logo">{c}</span>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Why Choose Us */}
+    <section class="why-section section-pad bg-dark" aria-labelledby="why-h">
+      <div class="container">
+        <div class="section-header-center">
+          <span class="section-label" style="color: var(--gold-light);">Our Promise</span>
+          <h2 id="why-h" style="color: var(--white);">Why Choose Evora?</h2>
+          <div class="gold-divider center" />
+        </div>
+        <div class="why-grid">
+          {WHY.map(w => (
+            <WhyCard icon={w.icon} title={w.title} desc={w.desc} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Testimonials */}
+    <section class="testimonials-section section-pad" aria-labelledby="reviews-h">
+      <div class="container">
+        <div class="section-header-center">
+          <span class="section-label">Client Stories</span>
+          <h2 id="reviews-h">What Our Clients Say</h2>
+          <div class="gold-divider center" />
+        </div>
+        <div class="testi-grid">
+          {TESTIMONIALS.map(t => (
+            <TestimonialCard quote={t.quote} avatar={t.avatar} name={t.name} title={t.title} />
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

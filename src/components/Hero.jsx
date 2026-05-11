@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import './Hero.css';
 
 const SLIDES = [
@@ -45,7 +44,7 @@ export default function Hero() {
               ))}
             </h1>
             <div className="hero__ctas">
-              <Link to="/quote" className="btn-hero-quote">{slide.cta}</Link>
+              <a href="/quote" className="btn-hero-quote">{slide.cta}</a>
             </div>
           </div>
         </div>

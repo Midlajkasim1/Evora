@@ -79,11 +79,24 @@
   height: 60px;
   width: auto;
   display: block;
+  transition: height 0.3s ease;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .topbar__logo-svg {
-    height: 45px;
+    height: 52px;
+  }
+}
+
+@media (max-width: 900px) {
+  .topbar__logo-svg {
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar__logo-svg {
+    height: 40px;
   }
 }
 
@@ -248,7 +261,7 @@
   transition: all 0.2s ease;
 }
 
-.bottomnav__link:hover, .bottomnav__link--open {
+.bottomnav__link:hover, .bottomnav__link--open, .bottomnav__link--active {
   color: var(--gold-dark);
   border-bottom-color: var(--gold);
 }
@@ -484,7 +497,7 @@
   color: var(--gold-dark);
 }
 
-.mobile-dropdown-item--highlight {
+.mobile-dropdown-item--active {
   color: var(--gold-dark);
 }
 
@@ -510,7 +523,7 @@
   height: 70px;
   background: white;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   border-top: 1px solid #eee;
   z-index: 1000;
@@ -522,15 +535,18 @@
 }
 
 .bottom-tab__item {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   color: #888;
   text-decoration: none;
   font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
+  min-width: 0;
 }
 
 .bottom-tab__item.active {
@@ -538,11 +554,14 @@
 }
 
 .bottom-tab__whatsapp {
+  flex: 0 0 60px;
   background: var(--gold-gradient-btn);
   background-size: 200% auto;
   color: var(--black) !important;
   width: 60px;
   height: 60px;
+  min-width: 60px;
+  max-width: 60px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -550,6 +569,9 @@
   margin-top: -30px;
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
   border: 4px solid white;
+  flex-direction: row;
+  gap: 0;
+  padding: 0;
 }
 
 .desktop-only {

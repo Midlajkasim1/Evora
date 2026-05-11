@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import './StaticFooter.css';
 
@@ -18,9 +17,9 @@ export default function StaticFooter() {
 
           {/* Brand Column */}
           <div className="sf-brand">
-            <Link to="/" className="sf-logo">
+            <a href="/" className="sf-logo">
               <Logo className="sf-logo-svg" />
-            </Link>
+            </a>
             <p className="sf-desc">
               At Evora, we are the trusted experts in delivering premium and innovative printing solutions for every requirement. Our team of seasoned professionals, backed by cutting-edge technology, ensures each project is executed with unmatched precision, sophistication, and finesse.
             </p>
@@ -50,7 +49,7 @@ export default function StaticFooter() {
             <h4 className="sf-col-heading">Quick Links</h4>
             <ul className="sf-links">
               {QUICK_LINKS.map(l => (
-                <li key={l}><Link to="#" className="sf-link">{l}</Link></li>
+                <li key={l}><a href="#" className="sf-link">{l}</a></li>
               ))}
             </ul>
           </div>
@@ -82,7 +81,7 @@ export default function StaticFooter() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             hello@evora.ae
           </a>
-          <Link to="/quote" className="sticky-bar__btn sticky-bar__btn--enquiry">Quick Enquiry</Link>
+          <a href="/quote" className="sticky-bar__btn sticky-bar__btn--enquiry">Quick Enquiry</a>
           <a 
             href="https://wa.me/971569786395?text=Hi%2C%20I'm%20interested%20in%20getting%20a%20quote%20for%20printing%20services." 
             target="_blank"

@@ -1,0 +1,44 @@
+---
+import '../index.css';
+import GlobalUI from '../components/GlobalUI';
+import Footer from '../components/Footer';
+import StickyContactBar from '../components/StickyContactBar';
+import '../components/QuickViewModal.css';
+import '../components/ProductCard.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Evora - Your print, simplified. Premium printing solutions in UAE & India." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<GlobalUI client:load />
+		
+		<slot />
+		
+		<Footer />
+		<StickyContactBar />
+	</body>
+</html>
+
+<style is:global>
+	/* Any additional global styles if needed */
+</style>

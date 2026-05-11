@@ -1,0 +1,164 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import data from '../../data/products.json';
+import { NAV_ITEMS } from '../../data/navigation';
+import ProductGrid from '../../components/ProductGrid';
+import '../../pages/ProductsPage.css';
+
+const activeCategory = Astro.url.searchParams.get('category') || 'all';
+const searchQuery = Astro.url.searchParams.get('search') || '';
+
+const activeCatLabel = data.categories.find(c => c.id === activeCategory)?.label || 'All Products';
+
+// Find the relevant nav item for the current category to populate the sidebar
+const activeNavItem = NAV_ITEMS.find(item => {
+  if (activeCategory !== 'all' && item.to.includes(`category=${activeCategory}`)) return true;
+  if (searchQuery && item.mega) {
+    return item.mega.columns.some(col => 
+      col.heading.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      col.links.some(l => l.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }
+  return false;
+}) || NAV_ITEMS[0];
+
+const WHY_TRUST = [
+  { title: "PREMIUM QUALITY", desc: "Every job passes our 22-point quality check before dispatch.", icon: "⭐" },
+  { title: "SPEED & RELIABILITY", desc: "Express 48-hour turnaround on most products across UAE.", icon: "⚡" },
+  { title: "PROFESSIONAL ADVICE", desc: "Our expert team is here to help you choose the best materials.", icon: "🎯" },
+];
+
+const title = `${activeCatLabel} — Evora Print Studio`;
+const description = `Browse our ${activeCatLabel.toLowerCase()} collection. Premium quality print materials from Evora.`;
+---
+
+<Layout title={title} description={description}>
+  <main class="products-page">
+    {/* Breadcrumb Section */}
+    <section class="products-breadcrumb-section">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a> <span>/</span> <span>{searchQuery ? `Search: ${searchQuery}` : activeCatLabel}</span>
+        </nav>
+        <h1>{searchQuery ? `Results for "${searchQuery}"` : activeCatLabel}</h1>
+      </div>
+    </section>
+
+    <div class="container products-layout">
+      {/* Sidebar */}
+      <aside class="products-sidebar" aria-label="Product navigation">
+        {activeNavItem.mega && activeNavItem.mega.columns.map(col => (
+          <div class="sidebar-group">
+            <h4 class="sidebar-group-heading">{col.heading}</h4>
+            <ul class="sidebar-links">
+              {col.links.map(link => (
+                <li>
+                  <a 
+                    href={`/products?search=${encodeURIComponent(link)}`}
+                    class={`sidebar-link${searchQuery === link ? ' sidebar-link--active' : ''}`}
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+
+        <div class="sidebar-cta">
+          <span class="qs-icon">🎯</span>
+          <h5>Need a Custom Quote?</h5>
+          <p>Get professional advice for your unique printing requirements.</p>
+          <a href="/quote" class="btn-primary-sm">Get Quote →</a>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <div class="products-main">
+        <ProductGrid 
+          initialCategory={activeCategory} 
+          initialSearch={searchQuery} 
+          client:load 
+        />
+      </div>
+    </div>
+
+    {/* Why Trust Us Section */}
+    <section class="products-trust-section container">
+      <div class="trust-grid-title">
+        <span class="section-label">OUR PROMISE</span>
+        <h2>Why Businesses Trust Evora</h2>
+        <div class="gold-divider" />
+      </div>
+      <div class="trust-grid">
+        {WHY_TRUST.map(item => (
+          <div class="trust-grid-item">
+            <span class="trust-grid-icon">{item.icon}</span>
+            <div class="trust-grid-text">
+              <h4>{item.title}</h4>
+              <p>{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* Integrated SEO/Info Section */}
+    <section class="container section-pad">
+      <div class="products-info-blocks">
+        <div class="info-block">
+          <h3>Premium {activeCatLabel} for Impactful Branding</h3>
+          <p>At Evora, we understand that {activeCatLabel.toLowerCase()} are more than just print materials—they are a reflection of your brand's commitment to excellence. Our state-of-the-art facility in Dubai utilizes the latest printing technology to ensure every piece is rendered with pin-sharp clarity and vibrant color accuracy.</p>
+          <p>Whether you need professional business cards that make a lasting first impression or large-format event banners that capture attention from afar, we provide bespoke solutions tailored to your specific industry requirements across the UAE.</p>
+        </div>
+
+        <div class="info-block">
+          <h4>Bespoke Finishes & Luxury Materials</h4>
+          <p>Elevate your brand with our range of premium finishes. From elegant gold foiling and deep embossing to modern spot UV and soft-touch lamination, we offer the custom touches that turn standard print into a luxury experience. We work with high-grade sustainable materials to ensure your marketing collateral is as responsible as it is beautiful.</p>
+        </div>
+
+        <div class="info-block">
+          <h4>Fast Delivery Across Dubai & UAE</h4>
+          <p>Time is of the essence in the corporate world. That's why Evora offers express 48-hour delivery on most of our product range. From our hub in Dubai, we serve businesses in Abu Dhabi, Sharjah, and all other Emirates, ensuring your materials arrive exactly when you need them, without compromising on quality.</p>
+        </div>
+      </div>
+
+      <div class="products-faq-compact">
+        <h3>Frequently Asked Questions</h3>
+        <div class="faq-list">
+          {[
+            { q: `What is the turnaround time for ${activeCatLabel.toLowerCase()}?`, a: "Standard turnaround is 3-5 business days. Express 48-hour delivery is available for urgent corporate requirements." },
+            { q: "Can I get a custom quote for a large volume?", a: "Absolutely. We offer tiered pricing for bulk orders. Simply use our 'Request Quote' button or contact our sales team directly." },
+            { q: "Do you offer design services?", a: "Yes, our in-house design team can assist you in creating or refining your artwork to ensure it is perfectly optimized for printing." }
+          ].map((faq, i) => (
+            <details class="faq-item">
+              <summary class="faq-summary">
+                {faq.q}
+                <span class="faq-icon">+</span>
+              </summary>
+              <div class="faq-content">
+                <p>{faq.a}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Quick Stats Strip */}
+    <div class="quick-stats">
+      {[
+        { icon: '⭐', val: 'Capital for Quality' },
+        { icon: '💰', val: 'Value for Money' },
+        { icon: '⚡', val: 'Speed & Reliability' },
+        { icon: '🎯', val: 'Professional Adviser' },
+        { icon: '📦', val: '350+ Products' },
+      ].map(s => (
+        <div class="qs-item">
+          <span class="qs-icon">{s.icon}</span>
+          <span class="qs-val">{s.val}</span>
+        </div>
+      ))}
+    </div>
+  </main>
+</Layout>

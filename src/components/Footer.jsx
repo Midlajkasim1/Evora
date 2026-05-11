@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import './Footer.css';
 
@@ -16,9 +15,9 @@ export default function Footer() {
 
         {/* Brand Column */}
         <div className="footer__brand">
-          <Link to="/" className="footer__logo">
+          <a href="/" className="footer__logo">
             <Logo className="footer__logo-svg" />
-          </Link>
+          </a>
           <p className="footer__desc">
             At Evora, we are the trusted experts in delivering premium and innovative printing solutions for every requirement. Our team of seasoned professionals, backed by cutting-edge technology, ensures each project is executed with unmatched precision, sophistication, and finesse.
           </p>
@@ -47,7 +46,7 @@ export default function Footer() {
           <h4 className="footer__col-heading">Quick Links</h4>
           <ul className="footer__links">
             {QUICK_LINKS.map(l => (
-              <li key={l}><Link to="#" className="footer__link">{l}</Link></li>
+              <li key={l}><a href="#" className="footer__link">{l}</a></li>
             ))}
           </ul>
         </div>

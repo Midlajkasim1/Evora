@@ -1,25 +1,29 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useStore } from '@nanostores/react';
+import { isCartOpen, cartCount } from '../store/cart';
 import data from '../data/products.json';
 import { NAV_ITEMS } from '../data/navigation';
 import Logo from './Logo';
 import './Navbar.css';
 
-export default function Navbar({ onCartOpen, cartCount }) {
+export default function Navbar() {
+  const $isCartOpen = useStore(isCartOpen);
+  const $cartCount = useStore(cartCount);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
   const [searchVal, setSearchVal] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const megaTimeout = useRef(null);
   const searchRef = useRef(null);
-  const location = useLocation();
+  const [pathname, setPathname] = useState('');
 
   useEffect(() => {
+    setPathname(window.location.pathname);
     setMenuOpen(false);
     setActiveMenu(null);
     setShowSuggestions(false);
     setSearchVal('');
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -62,6 +66,8 @@ export default function Navbar({ onCartOpen, cartCount }) {
   
   const searchResults = filteredResults.slice(0, 6);
 
+  const fallbackActiveIndex = NAV_ITEMS.findIndex(i => pathname === i.to);
+
   return (
     <>
       {/* ── Top Contact Bar (Dark) ────────────────────────────── */}
@@ -84,9 +90,9 @@ export default function Navbar({ onCartOpen, cartCount }) {
       <header className="topbar" role="banner">
         <div className="topbar__inner container">
           {/* Official Logo */}
-          <Link to="/" className="topbar__logo" aria-label="Evora Home">
+          <a href="/" className="topbar__logo" aria-label="Evora Home">
             <Logo className="topbar__logo-svg" />
-          </Link>
+          </a>
 
           {/* Search */}
           <div className="topbar__search-container" ref={searchRef}>
@@ -118,9 +124,9 @@ export default function Navbar({ onCartOpen, cartCount }) {
                   <>
                     <div className="suggestions-header">Products found:</div>
                     {searchResults.map(item => (
-                      <Link 
+                      <a 
                         key={item.id} 
-                        to={`/products/${item.slug}`} 
+                        href={`/products/${item.slug}`} 
                         className="search-suggestion-item"
                         onClick={() => {
                           setShowSuggestions(false);
@@ -133,16 +139,16 @@ export default function Navbar({ onCartOpen, cartCount }) {
                         <span className="search-suggestion-text">
                           {renderHighlighted(item.name, searchVal.trim())}
                         </span>
-                      </Link>
+                      </a>
                     ))}
                     {filteredResults.length > 6 && (
-                      <Link 
-                        to={`/products?search=${encodeURIComponent(searchVal)}`}
+                      <a 
+                        href={`/products?search=${encodeURIComponent(searchVal)}`}
                         className="search-suggestions-view-all"
                         onClick={() => setShowSuggestions(false)}
                       >
                         View all {filteredResults.length} results
-                      </Link>
+                      </a>
                     )}
                   </>
                 ) : (
@@ -163,6 +169,17 @@ export default function Navbar({ onCartOpen, cartCount }) {
               </svg>
               <span>+1 (800) 836-2376</span>
             </a>
+
+            <button 
+              className="topbar__cart" 
+              onClick={() => isCartOpen.set(true)}
+              aria-label={`View cart with ${$cartCount} items`}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+              {$cartCount > 0 && <span className="cart-badge">{$cartCount}</span>}
+            </button>
           </div>
         </div>
       </header>
@@ -186,35 +203,40 @@ export default function Navbar({ onCartOpen, cartCount }) {
       {/* ── Mobile Accordion Menu (Dropdown) ─────────────────── */}
       <div className={`mobile-dropdown-menu${menuOpen ? ' mobile-dropdown-menu--open' : ''}`}>
         <div className="container mobile-dropdown-menu__inner">
-          {NAV_ITEMS.map((item, i) => (
-            <Link
-              key={item.label}
-              to={item.to}
-              className={`mobile-dropdown-item${item.highlight ? ' mobile-dropdown-item--highlight' : ''}`}
-              onClick={() => setMenuOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <Link to="/quote" className="mobile-dropdown-item mobile-dropdown-item--cta" onClick={() => setMenuOpen(false)}>
+          {NAV_ITEMS.map((item, index) => {
+            const isActive = index === fallbackActiveIndex;
+            return (
+              <a
+                key={item.label}
+                href={item.to}
+                className={`mobile-dropdown-item${isActive ? ' mobile-dropdown-item--active' : ''}`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {item.label}
+              </a>
+            );
+          })}
+          <a href="/quote" className="mobile-dropdown-item mobile-dropdown-item--cta" onClick={() => setMenuOpen(false)}>
             Request a Quote
-          </Link>
+          </a>
         </div>
       </div>
 
       {/* ── Desktop Category Nav ────────────────────────────── */}
       <nav className="bottomnav" aria-label="Main navigation">
         <div className="bottomnav__inner container">
-          {NAV_ITEMS.map(item => (
+          {NAV_ITEMS.map((item, index) => {
+            const isActive = index === fallbackActiveIndex;
+            return (
             <div
               key={item.label}
               className="bottomnav__item"
               onMouseEnter={() => item.mega && handleMenuEnter(item.label)}
               onMouseLeave={handleMenuLeave}
             >
-              <Link
-                to={item.to}
-                className={`bottomnav__link${item.highlight ? ' bottomnav__link--highlight' : ''}${activeMenu === item.label ? ' bottomnav__link--open' : ''}`}
+              <a
+                href={item.to}
+                className={`bottomnav__link${isActive ? ' bottomnav__link--active' : ''}${activeMenu === item.label ? ' bottomnav__link--open' : ''}`}
               >
                 {item.label}
                 {item.mega && (
@@ -222,7 +244,7 @@ export default function Navbar({ onCartOpen, cartCount }) {
                     <polyline points="6 9 12 15 18 9" />
                   </svg>
                 )}
-              </Link>
+              </a>
 
               {/* Mega Dropdown */}
               {item.mega && (
@@ -236,11 +258,11 @@ export default function Navbar({ onCartOpen, cartCount }) {
                   <div className="mega-menu__inner container">
                     {item.mega.columns.map(col => (
                       <div key={col.heading} className="mega-col">
-                        <Link to={col.to} className="mega-col__heading">{col.heading}</Link>
+                        <a href={col.to} className="mega-col__heading">{col.heading}</a>
                         <ul>
                           {col.links.map(link => (
                             <li key={link}>
-                              <Link to={`/products?search=${encodeURIComponent(link)}`} className="mega-col__link">{link}</Link>
+                              <a href={`/products?search=${encodeURIComponent(link)}`} className="mega-col__link">{link}</a>
                             </li>
                           ))}
                         </ul>
@@ -250,16 +272,16 @@ export default function Navbar({ onCartOpen, cartCount }) {
                 </div>
               )}
             </div>
-          ))}
+          )})}
         </div>
       </nav>
 
       {/* ── Mobile Bottom Navigation ────────────────────────── */}
       <nav className="bottom-tab" aria-label="Mobile bottom navigation">
-        <Link to="/" className={`bottom-tab__item${location.pathname === '/' ? ' active' : ''}`}>
+        <a href="/" className={`bottom-tab__item${pathname === '/' ? ' active' : ''}`}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
           <span>Home</span>
-        </Link>
+        </a>
         <a href="tel:+18008362376" className="bottom-tab__item">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
           <span>Call</span>
@@ -271,10 +293,10 @@ export default function Navbar({ onCartOpen, cartCount }) {
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
           <span>Email</span>
         </a>
-        <Link to="/quote" className="bottom-tab__item">
+        <a href="/quote" className={`bottom-tab__item${pathname === '/quote' ? ' active' : ''}`}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
           <span>Enquiry</span>
-        </Link>
+        </a>
       </nav>
     </>
   );

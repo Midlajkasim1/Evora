@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import QuoteForm from '../components/QuoteForm';
+import '../pages/QuotePage.css';
+
+const title = "Request a Quote — Evora Print Studio";
+const description = "Get a bespoke quote for your premium print project. Tell us about your requirements and we'll respond within 24 hours.";
+
+const infoItems = [
+  { icon: '✦', title: 'Premium Quality', desc: 'Every job is checked against our 22-point quality assurance process.' },
+  { icon: '⚡', title: 'Fast Turnaround', desc: 'Express 48-hour service available on most products.' },
+  { icon: '◆', title: 'Expert Guidance', desc: 'Dedicated print consultants guide you from brief to delivery.' },
+  { icon: '✉', title: '24hr Response', desc: "We'll review your brief and respond with a full proposal within 24 hours." },
+];
+---
+
+<Layout title={title} description={description}>
+  <main class="quote-page">
+    <section class="quote-hero">
+      <div class="container">
+        <span class="section-label">Get in Touch</span>
+        <h1>Request a Quote</h1>
+        <div class="gold-divider"></div>
+        <p class="quote-hero__sub">Tell us about your project and we'll get back to you within 24 hours with a bespoke proposal.</p>
+      </div>
+    </section>
+
+    <div class="container quote-layout">
+      {/* Form */}
+      <section class="quote-form-wrap" aria-label="Quote request form">
+        <QuoteForm client:load />
+      </section>
+
+      {/* Sidebar info */}
+      <aside class="quote-info" aria-label="Contact information">
+        <div class="quote-info__card">
+          <h3>Why Choose Evora?</h3>
+          <div class="gold-divider"></div>
+          {infoItems.map(item => (
+            <div class="quote-info__item">
+              <span class="quote-info__item-icon">{item.icon}</span>
+              <div>
+                <h4>{item.title}</h4>
+                <p>{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="quote-info__contact">
+          <h4>Or reach us directly</h4>
+          <a href="tel:+18008362376" class="quote-contact-link">+1 (800) EVORA-PR</a>
+          <a href="mailto:hello@evora.ae" class="quote-contact-link">hello@evora.ae</a>
+          <p class="quote-contact-hours">Mon–Fri, 9:00 AM – 6:00 PM GST</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+</Layout>

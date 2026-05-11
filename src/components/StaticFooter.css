@@ -67,6 +67,18 @@
   display: block;
 }
 
+@media (max-width: 768px) {
+  .sf-logo-svg {
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sf-logo-svg {
+    height: 44px;
+  }
+}
+
 .sf-desc {
   font-size: 0.82rem; color: rgba(255,255,255,0.5);
   line-height: 1.75; max-width: 320px; margin-bottom: 16px;
