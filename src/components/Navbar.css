@@ -150,6 +150,12 @@
   cursor: pointer;
 }
 
+@media (max-width: 900px) {
+  .topbar__search-btn {
+    display: none;
+  }
+}
+
 /* Phone / Right Section */
 .topbar__right {
   display: none;
@@ -549,7 +555,8 @@
   min-width: 0;
 }
 
-.bottom-tab__item.active {
+.bottom-tab__item.active,
+.bottom-tab__item:active {
   color: var(--gold-dark);
 }
 
